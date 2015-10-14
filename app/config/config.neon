@@ -21,6 +21,7 @@ session:
 services:
 	router: App\RouterFactory::createRouter
 	- App\Models\ArticleModel
+        - App\Models\UserModel
 	- App\Components\IArticleControlFactory
 
 extensions:

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f58a50da82746e47f615d4fac853a8e6",
-    "content-hash": "639af3b75fefe0ef4539857af58113a4",
+    "hash": "d4318065f96c274a0a435fad8273719c",
+    "content-hash": "e1970d4e43127ea8efa8c664f8f69b22",
     "packages": [
         {
             "name": "dg/dibi",
@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/dibi/zipball/f06425b9a0190c03741b36f66b0ab1dbe4b52b5f",
+                "url": "https://api.github.com/repos/dg/dibi/zipball/ee4cd0d6ef662de810d4ce826acea9eb0ebe44a4",
                 "reference": "f06425b9a0190c03741b36f66b0ab1dbe4b52b5f",
                 "shasum": ""
             },
@@ -69,6 +69,69 @@
                 "sqlite"
             ],
             "time": "2015-07-23 16:54:35"
+        },
+        {
+            "name": "dibi/dibi",
+            "version": "v2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dg/dibi.git",
+                "reference": "7762da1bbbcbffc97515cff47b118be63244834c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dg/dibi/zipball/7762da1bbbcbffc97515cff47b118be63244834c",
+                "reference": "7762da1bbbcbffc97515cff47b118be63244834c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "replace": {
+                "dg/dibi": "self.version"
+            },
+            "require-dev": {
+                "nette/tester": "~1.3",
+                "tracy/tracy": "~2.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "dibi/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "http://davidgrudl.com"
+                }
+            ],
+            "description": "Dibi is Database Abstraction Library for PHP",
+            "homepage": "http://dibiphp.com",
+            "keywords": [
+                "access",
+                "database",
+                "dbal",
+                "mssql",
+                "mysql",
+                "odbc",
+                "oracle",
+                "pdo",
+                "postgresql",
+                "sqlite"
+            ],
+            "time": "2015-04-18 14:26:53"
         },
         {
             "name": "latte/latte",
@@ -1223,35 +1286,37 @@
         },
         {
             "name": "o5/grido",
-            "version": "dev-master",
+            "version": "2.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/o5/grido.git",
-                "reference": "908acc8255de2d686b48d4dcfa232e39332ae5a1"
+                "reference": "a44aaddbcfbaf8a358888d19290ceb4bc92ba3e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/o5/grido/zipball/908acc8255de2d686b48d4dcfa232e39332ae5a1",
-                "reference": "908acc8255de2d686b48d4dcfa232e39332ae5a1",
+                "url": "https://api.github.com/repos/o5/grido/zipball/a44aaddbcfbaf8a358888d19290ceb4bc92ba3e0",
+                "reference": "a44aaddbcfbaf8a358888d19290ceb4bc92ba3e0",
                 "shasum": ""
             },
             "require": {
                 "nette/nette": "~2.0",
-                "php": ">=5.3",
-                "symfony/property-access": "~2.6"
+                "php": ">=5.3"
             },
             "require-dev": {
-                "dibi/dibi": "~2.3.1",
-                "kdyby/doctrine": "~2.3.0",
-                "mockery/mockery": "~0.9.3",
-                "nette/nette": "~2.2.0",
-                "nette/tester": "~1.4.0",
-                "squizlabs/php_codesniffer": "~2.3.0"
+                "dibi/dibi": "@dev",
+                "kdyby/doctrine": "@dev",
+                "mockery/mockery": "@dev",
+                "nette/nette": ">=2.2.4",
+                "nette/tester": "@dev",
+                "squizlabs/php_codesniffer": "~2.0.0"
+            },
+            "suggest": {
+                "symfony/property-access": "Allows to use Grido\\PropertyAccessors\\SymfonyPropertyAccessor"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Grido\\": "src"
+                    "Grido\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1267,7 +1332,7 @@
                 }
             ],
             "description": "Grido - DataGrid for Nette Framework",
-            "homepage": "http://o5.github.io/grido-examples/",
+            "homepage": "http://o5.github.io/grido-sandbox/",
             "keywords": [
                 "datagrid",
                 "datalist",
@@ -1277,7 +1342,7 @@
                 "table",
                 "tablegrid"
             ],
-            "time": "2015-08-21 13:06:16"
+            "time": "2014-12-07 00:11:14"
         },
         {
             "name": "symfony/property-access",
@@ -1393,14 +1458,64 @@
                 "nette"
             ],
             "time": "2015-08-23 12:34:11"
+        },
+        {
+            "name": "twbs/bootstrap",
+            "version": "v3.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "16b48259a62f576e52c903c476bd42b90ab22482"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/16b48259a62f576e52c903c476bd42b90ab22482",
+                "reference": "16b48259a62f576e52c903c476bd42b90ab22482",
+                "shasum": ""
+            },
+            "replace": {
+                "twitter/bootstrap": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                },
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "http://getbootstrap.com",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ],
+            "time": "2015-06-16 16:13:22"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dg/dibi": 20,
-        "o5/grido": 20
+        "dg/dibi": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
