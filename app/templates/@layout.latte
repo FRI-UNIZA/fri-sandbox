@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-
+        <link rel="stylesheet" type="text/css" href="{$basePath}/css/bootstrap-theme.min.css">
 	<title>{ifset title}{include title|striptags} | {/ifset}Nette Web</title>
 
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
@@ -16,6 +16,7 @@
 
 	{block scripts}
 	<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-	{/block}
+        <script src="{$basePath}/js/bootstrap.min.js"></script>
+ 	{/block}
 </body>
 </html>

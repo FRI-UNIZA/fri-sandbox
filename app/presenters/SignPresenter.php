@@ -2,21 +2,23 @@
 
 namespace App\Presenters;
 
-class SignPresenter extends BasePresenter {
+use Nette;
 
+class SignPresenter extends BasePresenter {
+    
     /**
-     * @inject
-     * @var \App\Models\UserModel
-     */
-    public $userModel;
+	 * @inject
+	 * @var \App\Models\UserModel
+	 */
+	public $userModel;
 
     protected function createComponentSignInForm() {
         $form = new Nette\Application\UI\Form;
-        $form->addText('username', 'Uživatelské jméno:')
-                ->setRequired('Prosím vyplňte své uživatelské jméno.');
+        $form->addText('meno', 'Prihlasovacii email:')
+                ->setRequired('Prosím vyplnte email.');
 
-        $form->addPassword('password', 'Heslo:')
-                ->setRequired('Prosím vyplňte své heslo.');
+        $form->addPassword('heslo', 'Heslo:')
+                ->setRequired('Prosím vyplnte heslo.');
 
         $form->addCheckbox('remember', 'Zůstat přihlášen');
 
@@ -28,17 +30,17 @@ class SignPresenter extends BasePresenter {
 
     protected function createComponentRegisterForm() {
         $form = new Nette\Application\UI\Form;
-        $form->addText('username', 'Uživatelské jméno:')
-                ->setRequired('Prosím vyplňte své uživatelské jméno.');
+        $form->addText('meno', 'Prihlasovacii email:')
+                ->setRequired('Prosím vyplnte email.');
 
-        $form->addPassword('password', 'Heslo:')
-                ->setRequired('Prosím vyplňte své heslo.');
+        $form->addPassword('heslo', 'Heslo:')
+                ->setRequired('Prosím vyplnte heslo.');
 
         $form->addCheckbox('remember', 'Zůstat přihlášen');
 
-        $form->addSubmit('send', 'Registrovat');
+        $form->addSubmit('send', 'Přihlásit');
 
-        $form->onSuccess[] = array($this, 'signInFormSucceeded');
+        $form->onSuccess[] = array($this, 'registerFormSucceeded');
         return $form;
     }
 
@@ -46,7 +48,7 @@ class SignPresenter extends BasePresenter {
         $values = $form->values;
 
         try {
-            $this->getUser()->login($values->username, $values->password);
+            $this->getUser()->login($values->meno, $values->heslo);
             $this->redirect('Homepage:');
         } catch (Nette\Security\AuthenticationException $e) {
             $form->addError('Nesprávné přihlašovací jméno nebo heslo.');
@@ -57,8 +59,8 @@ class SignPresenter extends BasePresenter {
         $values = $form->values;
 
         try {
-            $this->userModel->save($values);
-            $this->getUser()->login($values->username, $values->password);
+            $this-> userModel ->save($values);
+            $this->getUser()->login($values->meno, $values->heslo);
             $this->redirect('Homepage:');
         } catch (Nette\Security\AuthenticationException $e) {
             $form->addError('Nesprávné přihlašovací jméno nebo heslo.');
