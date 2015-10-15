@@ -19,9 +19,11 @@ session:
 
 
 services:
-	router: App\RouterFactory::createRouter
 	- App\Models\ArticleModel
+	- App\Models\UserModel
 	- App\Components\IArticleControlFactory
+	router: App\RouterFactory::createRouter
+	authenticator: App\Models\AuthenticatorModel
 
 extensions:
 	dibi: Dibi\Bridges\Nette\DibiExtension22

@@ -19,5 +19,4 @@ class RouterFactory
 		$router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 		return $router;
 	}
-
 }
