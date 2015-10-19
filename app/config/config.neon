@@ -22,6 +22,7 @@ services:
     - App\Models\ArticleModel
     - App\Models\UserModel
     - App\Components\IArticleControlFactory
+    - App\Models\GroupModel
     router: App\RouterFactory::createRouter
     authenticator: App\Models\AuthenticatorModel
 

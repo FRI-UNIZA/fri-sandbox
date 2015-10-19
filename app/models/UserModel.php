@@ -44,4 +44,6 @@ class UserModel extends \Nette\Object {
         return $this->database->getAffectedRows() == 1;
     }
 
+    
+
 }
