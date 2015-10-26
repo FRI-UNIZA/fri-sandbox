@@ -1,5 +1,6 @@
 {block content}
+<h2 n:block=title>Registrácia</h2>
 
-<h1 n:block=title>Registrácia</h1>
-
-{control registerForm}
+<div class="well col-lg-4">
+    {include '../components/form.latte', form => registerForm}
+</div>

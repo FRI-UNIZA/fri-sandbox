@@ -1,48 +1,55 @@
-<?php
-
+<?
 namespace App\Models;
 
-use DibiConnection, Nette\Security as NS;
+use DibiConnection,
+    Nette\Security as NS;
+use Nette\Security\AuthenticationException;
+use Nette\Security\IAuthenticator;
+use Nette\Security\IIdentity;
 
-class AuthenticatorModel extends \Nette\Object implements NS\IAuthenticator
+class AuthenticatorModel extends \Nette\Object implements IAuthenticator
 {
-	const TABLE = 'pouzivatel';
+    const TABLE = 'user';
+
+    /**
+     * @var \DibiConnection
+     */
+    private $database;
 
 
-	/**
-	 * @var \DibiConnection
-	 */
-	private $database;
-
-
-	/**
-	 * @param \DibiConnection
-	 */
-	public function __construct(DibiConnection $database)
-	{
-		$this->database = $database;
-	}
-
-	        
-        function authenticate(array $credentials)
+    /**
+     * @param \DibiConnection
+     */
+    public function __construct(\DibiConnection $database)
     {
-        list($meno, $heslo) = $credentials;
-              
+        $this->database = $database;
+    }
+
+
+    /**
+     * Performs an authentication against e.g. database.
+     * and returns IIdentity on success or throws AuthenticationException
+     * @return IIdentity
+     * @throws AuthenticationException
+     */
+    function authenticate(array $credentials)
+    {
+        list($username, $password) = $credentials;
+
         $result = $this->database->select('*')
             ->from(self::TABLE)
-            ->where('meno = %s',$meno)
+            ->where('username = %s',$username)
             ->fetch();
         $count = $result->count();
-        $pocet = $result->count();
-        
-        if ($count <=0) {
+
+        if ($count < 1) {
             throw new NS\AuthenticationException('User not found.');
         }
 
-        if (!NS\Passwords::verify($heslo, $result->heslo)) {
+        if (!NS\Passwords::verify($password, $result->password)) {
             throw new NS\AuthenticationException('Invalid password.');
         }
 
-        return new NS\Identity($result->id, $result->role, array('meno' => $result->meno));
+        return new NS\Identity($result->id, $result->role, array('username' => $result->username));
     }
 }

@@ -2,6 +2,10 @@
 <h2>Zoznam článkov</h2>
 <a n:href="add">Pridať článok</a>
 <div class="article-list">
-{dump $groups}
+	<ul>
+		<li n:foreach="$articles as $article" id="article{$article->id}">
+			{control articleControl-$article->id}
+		</li>
+	</ul>
 </div>
 {/block}

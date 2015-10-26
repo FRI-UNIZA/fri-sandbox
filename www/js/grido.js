@@ -41,6 +41,8 @@
     {
         operation: null,
 
+        onInit: [],
+
         /**
          * Initial function.
          */
@@ -55,7 +57,10 @@
             this.initPagePrompt();
             this.initCheckNumeric();
             this.initEditable();
-            this.onInit();
+
+            for (var i in this.onInit) {
+                this.onInit[i](this);
+            }
 
             return this;
         },
@@ -123,7 +128,9 @@
                     var page = parseInt(prompt($(this).data('grido-prompt')), 10);
                     if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', that.element).prev().text(), 10)) {
                         var location = $(this).data('grido-link').replace('page=0', 'page=' + page);
-                        window.location = that.options.ajax ? location.replace('?', '#') : location;
+                        window.location = location;
+                    } else if (page) {
+                        window.alert('Page is out of range.');
                     }
                 });
         },
@@ -154,8 +161,6 @@
                     }
             });
         },
-
-        onInit: function() {},
 
         /**
          * Sending filter form.
@@ -387,7 +392,7 @@
             }
 
             this.registerSuccessEvent();
-            this.registerHashChangeEvent();
+            this.registerPopState();
 
             return this;
         },
@@ -395,15 +400,23 @@
         registerSuccessEvent: function()
         {
             var that = this;
-            this.grido.$element.bind('success.ajax.grido', function(event, payload) {
-                $.proxy(that.handleSuccessEvent, that)(payload);
-                event.stopImmediatePropagation();
-            });
+            this.grido.$element
+                .off('success.ajax.grido')
+                .on('success.ajax.grido', function(event, payload) {
+                    $.proxy(that.handleSuccessEvent, that)(payload);
+                    event.stopImmediatePropagation();
+                });
         },
 
-        registerHashChangeEvent: function()
+        registerPopState: function()
         {
-            this.handleHashChangeEvent();
+            var that = this;
+            $(window)
+                .off('popstate.ajax.grido')
+                .on('popstate.ajax.grido', function(event) {
+                    $.proxy(that.onPopState, that)(event);
+                    event.stopImmediatePropagation();
+                });
         },
 
         /**
@@ -422,30 +435,60 @@
                     }
                 });
 
-                var hash = /mozilla/i.test(navigator.userAgent) && !/webkit/i.test(navigator.userAgent)
-                    ? $.param(params)
-                    : this.coolUri($.param(params));
+                var query = this.getQueryString(params);
 
-                $.data(document, this.grido.name + '-state', hash);
-                this.changeLocationHash(hash);
+                $.data(document, this.grido.name + '-query', query);
+                this.onSuccessEvent(params, query);
             }
         },
 
-        changeLocationHash: function(hash)
+        /**
+         * @param {Object} params
+         * @returns {String}
+         */
+        getQueryString: function(params)
         {
-            location.hash = hash;
+            var queryString;
+            if ($.isEmptyObject(params)) {
+                var newParams = {};
+                var oldParams = this.getQueryParams();
+                for (var key in oldParams) {
+                    if (key.indexOf(this.grido.name) !== 0) {
+                        newParams[key] = oldParams[key];
+                    }
+                }
+
+                queryString = $.isEmptyObject(newParams)
+                    ? window.location.pathname
+                    : '?' + $.param(newParams);
+
+            } else {
+                queryString = '?' + $.param($.extend(this.getQueryParams(), params));
+            }
+
+            return this.coolUri(queryString);
         },
 
-        handleHashChangeEvent: function()
+        /**
+         * @param {Object} params - grido params
+         * @param {String} url
+         */
+        onSuccessEvent: function(params, url)
         {
-            var state = $.data(document, this.grido.name + '-state') || '',
-                hash = location.toString().split('#').splice(1).join('#');
+            window.history.pushState(params, document.title, url);
+        },
 
-            if (hash.indexOf(this.grido.name + '-') >= 0 && state !== hash) {
-                var url = location.toString();
-                url = url.indexOf('?') >= 0 ? url.replace('#', '&') : url.replace('#', '?');
+        /**
+         * @param Event event
+         */
+        onPopState: function(event)
+        {
+            var state = $.data(document, this.grido.name + '-query') || '',
+                query = window.location.search;
 
-                this.doRequest(url + '&do=' + this.grido.name + '-refresh');
+            if (state !== query) {
+                var url = this.getRefreshGridHandlerUrl(this.grido.$element);
+                this.doRequest(url);
             }
         },
 
@@ -468,10 +511,58 @@
                 replace = {'%5B': '[', '%5D': ']', '%E2%86%91' : '↑', '%E2%86%93' : '↓'};
 
             $.each(replace, function(key, val) {
-                cool = cool.replace(key, val);
+                cool = cool.replace(new RegExp(key, 'g'), val);
             });
 
             return cool;
+        },
+
+        /**
+         * Returns url for AJAX call to Refresh grid.
+         * @param {jQuery} $form
+         * @return {String} Url from data atribute of form
+         */
+        getRefreshGridHandlerUrl: function($form)
+        {
+            return $form.data('grido-refresh-handler');
+        },
+
+        /**
+         * Returns window.location.search as object
+         * @link http://jsbin.com/adali3/2
+         * @link http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/2880929#2880929
+         */
+        getQueryParams: function ()
+        {
+            var e,
+                d = function (s) {
+                    return decodeURIComponent(s).replace(/\+/g, " ");
+                },
+                q = window.location.search.substring(1),
+                r = /([^&=]+)=?([^&]*)/g,
+                params = {};
+
+            while (e = r.exec(q)) {
+                if (e[1].indexOf("[") === -1) {
+                    params[d(e[1])] = d(e[2]);
+                } else {
+                    var b1 = e[1].indexOf("["),
+                        aN = e[1].slice(b1 + 1, e[1].indexOf("]", b1)),
+                        pN = d(e[1].slice(0, b1));
+
+                    if (typeof params[pN] !== "object") {
+                        params[d(pN)] = {};
+                    }
+
+                    if (aN) {
+                        params[d(pN)][d(aN)] = d(e[2]);
+                    } else {
+                        Array.prototype.push.call(params[d(pN)], d(e[2]));
+                    }
+                }
+            }
+
+            return params;
         }
     };
 

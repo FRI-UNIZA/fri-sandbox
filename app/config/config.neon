@@ -3,7 +3,6 @@
 
 parameters:
 
-
 php:
 	date.timezone: Europe/Prague
 
@@ -18,13 +17,12 @@ session:
 	expiration: 14 days
 
 
-services:    
-    - App\Models\ArticleModel
-    - App\Models\UserModel
-    - App\Components\IArticleControlFactory
-    - App\Models\GroupModel
-    router: App\RouterFactory::createRouter
-    authenticator: App\Models\AuthenticatorModel
+services:
+	- App\Models\ArticleModel
+	- App\Models\UserModel
+	- App\Models\GroupModel
+	- App\Components\IArticleControlFactory
+	router: App\RouterFactory::createRouter
 
 extensions:
 	dibi: Dibi\Bridges\Nette\DibiExtension22

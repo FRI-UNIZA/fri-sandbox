@@ -3,23 +3,62 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" type="text/css" href="{$basePath}/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="{$basePath}/css/grido.css">
+
 	<title>{ifset title}{include title|striptags} | {/ifset}Nette Web</title>
 
-	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
-        
+	<link rel="shortcut icon" href="{$basePath}/images/bunny.png">
+	{*<link rel="stylesheet" type="text/css" href="{$basePath}/css/bootstrap-darkly.min.css">*}
+	<link rel="stylesheet" type="text/css" href="{$basePath}/css/grido.css">
+    <link rel="stylesheet" type="text/css"  href="{$basePath}/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{$basePath}/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="{$basePath}/css/style.css">
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+<div class="container">
+    <div class="row margin-bottom-50">
+        <span class="logo">
+            <h1>Groups <a href="https://github.com/josiff/fri-sandbox" target="_blank">#</a></h1>
+        </span>
+    </div>
+
+    <div class="row margin-bottom-50">
+        <a href="{link Homepage:default}" class="btn btn-primary">Domov</a>
+        |
+        <a href="{link Group:list}" class="btn btn-primary">Skupiny</a>
+        <a href="{link User:list}" class="btn btn-primary">Užívatelia</a>
+        <a href="https://github.com/josiff/fri-sandbox" target="_blank" class="btn btn-success">Git</a>
+        |
+        {if $isLoggedIn == false}
+        <a href="{link Sign:in}" class="btn btn-primary">Prihlásenie</a>
+        <a href="{link Sign:register}" class="btn btn-primary">Registrácia</a>
+        {else}
+        {$userName}
+        <a href="{link Sign:out}" class="btn btn-primary">Odhlásiť</a>
+        <a href="{link Group:add}" class="btn btn-info">Pridať skupinu</a>
+        {/if}
+    </div>
+
+    <div id="flashes">
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">
+            <div class="well">
+                {$flash->message}
+            </div>
+        </div>
+    </div>
 
 	{include content}
+</div>
 
 	{block scripts}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-        <script src="{$basePath}/js/bootstrap.min.js"></script>
-        <script src="{$basePath}/js/grido.js"></script>
- 	{/block}
+	<script src="{$basePath}/js/bootstrap.min.js"></script>
+	<script src="{$basePath}/js/grido.js"></script>
+	<script src="{$basePath}/js/netteForms.js"></script>
+	<script src="{$basePath}/js/jquery.nette.js"></script>
+	<script src="{$basePath}/js/main.js"></script>
+	{/block}
 </body>
 </html>

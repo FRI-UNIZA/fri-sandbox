@@ -7,7 +7,7 @@
 		"php": ">= 5.4.0",
 		"nette/nette": "~2.3.0",
 		"dg/dibi": "dev-master",
-		"o5/grido": "^2.0",
+		"o5/grido": "dev-master",
 		"dibi/dibi": "^2.3",
 		"twbs/bootstrap": "^3.3"
 	}

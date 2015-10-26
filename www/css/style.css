@@ -1,0 +1,21 @@
+.hide {
+    display: none;
+}
+
+.center {
+    text-align: center;
+}
+
+#flashes {
+    margin-top: 20px;
+}
+
+.logo {
+    background: url('../images/bunny.png') no-repeat left center;
+    background-size: 40px 40px;
+    padding-left: 50px;
+    display: block;
+}
+.margin-bottom-50 {
+    margin-bottom: 20px;
+}
