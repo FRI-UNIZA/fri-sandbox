@@ -3,7 +3,6 @@
 
 parameters:
 
-
 php:
 	date.timezone: Europe/Prague
 
@@ -19,9 +18,11 @@ session:
 
 
 services:
-	router: App\RouterFactory::createRouter
 	- App\Models\ArticleModel
+	- App\Models\UserModel
+	- App\Models\GroupModel
 	- App\Components\IArticleControlFactory
+	router: App\RouterFactory::createRouter
 
 extensions:
 	dibi: Dibi\Bridges\Nette\DibiExtension22
